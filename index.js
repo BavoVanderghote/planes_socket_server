@@ -1,27 +1,3 @@
-// const content = require("fs").readFileSync(__dirname + "/index.html", "utf8");
-
-// const httpServer = require("http").createServer((req, res) => {
-//   // serve the index.html file
-//   res.setHeader("Content-Type", "text/html");
-//   res.setHeader("Content-Length", Buffer.byteLength(content));
-//   res.end(content);
-// });
-
-// const io = require("socket.io")(httpServer, {
-//   cors: {
-//     origin: "http://127.0.0.1:1234",
-//     methods: ["GET", "POST"],
-//   },
-// });
-
-// io.on("connection", (socket) => {
-//   console.log(socket.id);
-// });
-
-// httpServer.listen(3000, () => {
-//   console.log("go to http://127.0.0.1:3000");
-// });
-
 const app = require("express")();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http, {
@@ -34,7 +10,7 @@ const io = require("socket.io")(http, {
 const port = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
-  res.send("<h1>Socket_server</h1>");
+  res.send({ response: "I am alive" }).status(200);
 });
 
 io.on("connection", (socket) => {
@@ -62,6 +38,6 @@ io.on("connection", (socket) => {
   });
 });
 
-http.listen(3000, () => {
-  console.log("listening on http://127.0.0.1:3000");
+http.listen(port, () => {
+  console.log(`listening on ${port}`);
 });
