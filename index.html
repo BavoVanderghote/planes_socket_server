@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>planes socket server</title>
+</head>
+<body>
+  <ul id="events"></ul>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const $events = document.querySelector(`#events`);
+
+    const newItem = content => {
+      const item = document.createElement('li');
+      item.innerText = content;
+      return item;
+    };
+
+    const socket = io();
+
+    socket.on('connect', () => {
+      // $events.appendChild(newItem('connect'));
+    });
+
+  </script>
+</body>
+</html>
