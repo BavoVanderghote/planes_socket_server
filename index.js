@@ -38,12 +38,22 @@ const deleteRoom = (socketId) => {
   }
 };
 
-const findClient = (socketId) => {
-  if (rooms.find((e) => e.app.id == socketId)) {
-    return rooms.find((e) => e.app.id == socketId).client.id;
+const findPartner = (socketId) => {
+  const app = rooms.find((e) => e.app.id == socketId);
+  const client = rooms.find((e) => e.client.id == socketId);
+  if (app) {
+    return app.client.id;
+  } else if (client) {
+    return client.app.id;
   } else {
     return undefined;
   }
+
+  // if (rooms.find((e) => e.app.id == socketId)) {
+  //   return rooms.find((e) => e.app.id == socketId).client.id;
+  // } else {
+  //   return undefined;
+  // }
 };
 
 io.on("connection", (socket) => {
@@ -78,22 +88,22 @@ io.on("connection", (socket) => {
   });
 
   socket.on("accelerometerData", (data) => {
-    io.to(findClient(socket.id)).emit("accelerometerData", data); // send to partner
+    io.to(findPartner(socket.id)).emit("accelerometerData", data); // send to partner
     // socket.broadcast.emit("accelerometerData", data);
   });
 
   socket.on("tap", (e) => {
-    io.to(findClient(socket.id)).emit("tap", e);
+    io.to(findPartner(socket.id)).emit("tap", e);
     // socket.broadcast.emit("tap", e);
   });
 
   socket.on("orientation", (angles) => {
-    io.to(findClient(socket.id)).emit("orientation", angles);
+    io.to(findPartner(socket.id)).emit("orientation", angles);
     // socket.broadcast.emit("orientation", angles);
   });
 
   socket.on("controlMode", (bool) => {
-    io.to(findClient(socket.id)).emit("controlMode", bool);
+    io.to(findPartner(socket.id)).emit("controlMode", bool);
     // socket.broadcast.emit("controlMode", bool);
   });
 
