@@ -17,6 +17,7 @@ app.get("/", (req, res) => {
 const clientSockets = []; // store client sockets
 const rooms = []; // store rooms
 
+// delete a game and app pair
 const deleteRoom = (socketId) => {
   const app = rooms.find((e) => e.app.id == socketId);
   const client = rooms.find((e) => e.client.id == socketId);
@@ -38,6 +39,7 @@ const deleteRoom = (socketId) => {
   }
 };
 
+// find partner id
 const findPartner = (socketId) => {
   const app = rooms.find((e) => e.app.id == socketId);
   const client = rooms.find((e) => e.client.id == socketId);
@@ -48,12 +50,6 @@ const findPartner = (socketId) => {
   } else {
     return undefined;
   }
-
-  // if (rooms.find((e) => e.app.id == socketId)) {
-  //   return rooms.find((e) => e.app.id == socketId).client.id;
-  // } else {
-  //   return undefined;
-  // }
 };
 
 io.on("connection", (socket) => {
